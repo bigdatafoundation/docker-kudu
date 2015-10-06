@@ -35,6 +35,9 @@ RUN git clone https://github.com/cloudera/kudu.git $KUDU_HOME && \
     make install
 
 
+VOLUME /data/kudu-master /data/kudu-tserver
+
+
 
 ####################
 # PORTS

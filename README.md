@@ -42,7 +42,7 @@ TODO
 ### Accessing the web interfaces
 Each component provide its own web UI. Open you browser at one of the URLs below, where `dockerhost` is the name / IP of the host running the docker daemon. If using Linux, this is the IP of your linux box. If using OSX or Windows (via Docker-Machine), you can find out your docker host by typing `docker-machine ip default`.
 
-| Component               | Port                    |
-| ----------------------- |------------------------ |
-| Master                  | http://dockerhost:8051  |
-| TabletServer            | http://dockerhost:8050  |
+| Component               | Port                                              |
+| ----------------------- |-------------------------------------------------- |
+| Master                  | [http://dockerhost:8051](http://dockerhost:8051)  |
+| TabletServer            | [http://dockerhost:8050](http://dockerhost:8050)  |

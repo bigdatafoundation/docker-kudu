@@ -43,7 +43,10 @@ VOLUME /data/kudu-master /data/kudu-tserver
 # https://github.com/cloudera/kudu/blob/master/docs/installation.adoc
 # 
 # TabletServer:
+#	 7050 = TabletServer RPC Port
 # 	 8050 = TabletServer Web UI
-# 	 8051 = Master Web UI
+# Kudu Master:
+#	 7051 = Master RPC Port
+#	 8051 = Master Web UI
 #
 EXPOSE 8050 8051

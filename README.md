@@ -61,3 +61,6 @@ Each component provide its own web UI. Open you browser at one of the URLs below
 | Master                  | [http://dockerhost:8051](http://dockerhost:8051)  |
 | TabletServer            | [http://dockerhost:8050](http://dockerhost:8050)  |
 
+
+### Other links
+- https://github.com/cloudera/kudu-examples/wiki/Docker-based-tutorial

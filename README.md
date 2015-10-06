@@ -31,10 +31,20 @@ docker build -t name kudu .
 ```
 
 ### Starting the Kudu Master
-TODO
+```bash
+docker run -d --name kudu-master \
+    -p 8050:8050 -p 8051:8051 \
+    kudu kudu-master --use_hybrid_clock=false --logtostderr -fs_wal_dir /data/kudu-master && \
+docker logs -f kudu-master
+```
 
 ### Starting the Kudu TabletServer
-TODO
+```bash
+docker exec -ti kudu-master kudu-tserver --use_hybrid_clock=false --logtostderr -fs_wal_dir /data/kudu-tserver
+```
+
+FIXME: Find a way to use a different container than the Kudu Master
+
 
 ### Starting a Kudu console
 TODO
@@ -46,3 +56,4 @@ Each component provide its own web UI. Open you browser at one of the URLs below
 | ----------------------- |-------------------------------------------------- |
 | Master                  | [http://dockerhost:8051](http://dockerhost:8051)  |
 | TabletServer            | [http://dockerhost:8050](http://dockerhost:8050)  |
+

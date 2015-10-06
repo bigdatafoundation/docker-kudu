@@ -48,7 +48,10 @@ docker logs -f kudu-tserver1
 
 
 ### Starting a Kudu console
-TODO
+```bash
+docker run --rm -ti kudu kudu-ts-cli -server_address=kudu-tserver1 status
+```
+
 
 ### Accessing the web interfaces
 Each component provide its own web UI. Open you browser at one of the URLs below, where `dockerhost` is the name / IP of the host running the docker daemon. If using Linux, this is the IP of your linux box. If using OSX or Windows (via Docker-Machine), you can find out your docker host by typing `docker-machine ip default`.

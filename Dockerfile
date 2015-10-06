@@ -44,8 +44,8 @@ ENV KUDU_VERSION	master
 ENV KUDU_HOME		/usr/local/kudu
 ENV PATH		$PATH:$KUDU_HOME/build/latest
 
-RUN cd $KUDU_HOME && \
-    git clone https://github.com/cloudera/kudu.git $KUDU_HOME && \
+RUN git clone https://github.com/cloudera/kudu.git $KUDU_HOME && \
+    cd $KUDU_HOME && \
     ./thirdparty/build-if-necessary.sh && \
     cmake . && \
     make -j8 && \

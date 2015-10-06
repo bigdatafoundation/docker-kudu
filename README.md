@@ -32,18 +32,19 @@ docker build -t name kudu .
 
 ### Starting the Kudu Master
 ```bash
-docker run -d --name kudu-master \
-    -p 8050:8050 -p 8051:8051 \
-    kudu kudu-master --use_hybrid_clock=false --logtostderr -fs_wal_dir /data/kudu-master && \
+docker run -d  --name kudu-master \
+    -h kudu-master    -p 8051:8051 \
+    kudu kudu-master  -fs_wal_dir /data/kudu-master  --logtostderr  --use_hybrid_clock=false  --logtostderr  && \
 docker logs -f kudu-master
 ```
 
 ### Starting the Kudu TabletServer
 ```bash
-docker exec -ti kudu-master kudu-tserver --use_hybrid_clock=false --logtostderr -fs_wal_dir /data/kudu-tserver
+docker run -d  --name kudu-tserver1 \
+    -h kudu-tserver1   -p 8050:8050 \
+    kudu kudu-tserver  -fs_wal_dir /data/kudu-tserver  -tserver_master_addrs kudu-master  --use_hybrid_clock=false  --logtostderr  && \
+docker logs -f kudu-tserver1
 ```
-
-FIXME: Find a way to use a different container than the Kudu Master
 
 
 ### Starting a Kudu console

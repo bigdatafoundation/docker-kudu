@@ -5,10 +5,7 @@ FROM ubuntu:14.04
 # Dependencies
 ####################
 
-# Note 1: git is required to download the Kudu sources
-#       (e.g. it is not a dependency of Kudu itself)
-# 
-# Note 2: build-essential is required to compile the sources
+# Note: git and build-essential are required to build Kudu from source
 
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \

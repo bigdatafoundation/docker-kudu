@@ -1,0 +1,29 @@
+kudu_master_data:
+  build: .
+  volumes:
+    - /data/kudu-master
+kudu_tserver_data:
+  build: .
+  volumes:
+    - /data/kudu-tserver
+kudu_master:
+  build: .
+  environment:
+    - KUDU_OPTS=--logtostderr --use_hybrid_clock=false
+  ports:
+    - "8051:8051"
+  volumes_from:
+    - kudu_master_data
+  command: master
+kudu_tserver:
+  build: .
+  environment:
+    - KUDU_MASTER=kudu_master
+    - KUDU_OPTS=--logtostderr --use_hybrid_clock=false
+  ports:
+    - "8050:8050"
+  volumes_from:
+    - kudu_tserver_data
+  command: tserver
+  links:
+    - kudu_master

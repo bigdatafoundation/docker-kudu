@@ -1,6 +1,5 @@
 FROM ubuntu:14.04
 
-
 ####################
 # Dependencies
 ####################
@@ -17,9 +16,9 @@ RUN apt-get update && \
 # Building Kudu
 ####################
 
-ENV KUDU_VERSION	master
-ENV KUDU_HOME		/usr/local/kudu
-ENV PATH		$PATH:$KUDU_HOME/thirdparty/installed/bin:$KUDU_HOME/build/latest
+ENV KUDU_VERSION=master \
+    KUDU_HOME=/usr/local/kudu
+ENV PATH=$PATH:$KUDU_HOME/thirdparty/installed/bin:$KUDU_HOME/build/latest
 
 # Note: git and build-essential are required to build Kudu from source
 RUN git clone https://github.com/cloudera/kudu.git $KUDU_HOME && \
@@ -31,18 +30,23 @@ RUN git clone https://github.com/cloudera/kudu.git $KUDU_HOME && \
 
 VOLUME /data/kudu-master /data/kudu-tserver
 
-
 ####################
 # PORTS
 ####################
 #
 # https://github.com/cloudera/kudu/blob/master/docs/installation.adoc
-# 
-# TabletServer:
-#	 7050 = TabletServer RPC Port
-# 	 8050 = TabletServer Web UI
-# Kudu Master:
-#	 7051 = Master RPC Port
-#	 8051 = Master Web UI
 #
+# TabletServer:
+#   7050 = TabletServer RPC Port
+#   8050 = TabletServer Web UI
+# Kudu Master:
+#   7051 = Master RPC Port
+#   8051 = Master Web UI
+#
+
+ENV KUDU_OPTS=""
+
+COPY docker-entrypoint.sh /
+ENTRYPOINT ["/docker-entrypoint.sh"]
 EXPOSE 8050 8051
+CMD ["help"]

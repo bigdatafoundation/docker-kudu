@@ -25,36 +25,59 @@ Docker images are the basis of containers. Images are read-only, while container
 
 ## How to use this image?
 
+## The Easy Way
+
+### Using docker-compose
+```bash
+docker-compose up -d
+```
+
+### Starting a Kudu console
+```bash
+docker run --rm -it --link <kudu_tserver_name_or_id>:kudu_tserver -e KUDU_TSERVER=kudu_tserver <generated image name or id> cli status
+```
+
+## The Long Way
+
 ### Building this Docker image
 ```bash
-docker build -t name kudu .
+docker build -t kudu .
+```
+
+### (Optional) Create Data containers
+```bash
+docker create --name kudu-master-data -v /data/kudu-master
+docker create --name kudu-tserver-data -v /data/kudu-tserver
 ```
 
 ### Starting the Kudu Master
 ```bash
-docker run -d  --name kudu-master \
-    -h kudu-master    -p 8051:8051 \
-    kudu kudu-master  -fs_wal_dir /data/kudu-master  --logtostderr  --use_hybrid_clock=false  --logtostderr  && \
-docker logs -f kudu-master
+docker run -d --name kudu-master -p 8051:8051 \
+-e KUDU_OPTS="--logtostderr --use_hybrid_clock=false" \
+kudu master
 ```
 
 ### Starting the Kudu TabletServer
 ```bash
-docker run -d  --name kudu-tserver1 \
-    -h kudu-tserver1   -p 8050:8050 \
-    kudu kudu-tserver  -fs_wal_dir /data/kudu-tserver  -tserver_master_addrs kudu-master  --use_hybrid_clock=false  --logtostderr  && \
-docker logs -f kudu-tserver1
+docker run -d --name kudu-tserver -p 8050:8050 --link kudu-master \
+-e KUDU_MASTER=kudu-master \
+-e KUDU_OPTS="--logtostderr --use_hybrid_clock=false" \
+kudu tserver
 ```
 
+### Tailing the logs
+```bash
+docker logs -f kudu-master
+docker logs -f kudu-tserver
+```
 
 ### Starting a Kudu console
 ```bash
-docker run --rm -ti kudu kudu-ts-cli -server_address=kudu-tserver1 status
+docker run --rm -it --link kudu-tserver -e KUDU_TSERVER=kudu-tserver kudu cli status
 ```
 
-
 ### Accessing the web interfaces
-Each component provide its own web UI. Open you browser at one of the URLs below, where `dockerhost` is the name / IP of the host running the docker daemon. If using Linux, this is the IP of your linux box. If using OSX or Windows (via Docker-Machine), you can find out your docker host by typing `docker-machine ip default`.
+Each component provide its own web UI. Open you browser at one of the URLs below, where `dockerhost` is the name / IP of the host running the docker daemon. If using Linux, this is the IP of your linux box. If using OS X or Windows (via Docker-Machine), you can find out your docker host by typing `docker-machine ip default`.
 
 | Component               | Port                                              |
 | ----------------------- |-------------------------------------------------- |

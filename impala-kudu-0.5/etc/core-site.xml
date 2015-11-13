@@ -1,6 +1,21 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
 <configuration>
+
+	<!-- **********************************************************************
+	IMPORTANT: PLEASE ADD A BRIEF COMMENT WHEN EDITING THIS FILE
+	*********************************************************************** -->
+
+	<!-- The NameNode hostname is set to the container's hostname at runtime.
+	To override this, start the container with -e NAMENODE_HOST=<your_host>.
+	-->
 	<property>
 		<name>fs.default.name</name>
-		<value>hdfs://__HOSTNAME__:9000</value>
+		<value>hdfs://___NAMENODE_HOST___:9000</value>
+		<description>
+			The name of the default file system. A URI whose scheme and authority determine the FileSystem implementation.
+		</description>
 	</property>
+
 </configuration>

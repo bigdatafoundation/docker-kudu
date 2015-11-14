@@ -4,18 +4,18 @@
 <configuration>
 
 	<!-- **********************************************************************
-	IMPORTANT: PLEASE ADD A BRIEF COMMENT WHEN EDITING THIS FILE
+	                               IMPORTANT
+	***************************************************************************
+	Please add a brief comment or <description> tag when editing this file.
+	***
+	Defaults @
+	https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/core-default.xml
 	*********************************************************************** -->
 
-	<!-- The NameNode hostname is set to the container's hostname at runtime.
-	To override this, start the container with -e NAMENODE_HOST=<your_host>.
-	-->
 	<property>
 		<name>fs.default.name</name>
 		<value>hdfs://___NAMENODE_HOST___:8020</value>
-		<description>
-			The name of the default file system. A URI whose scheme and authority determine the FileSystem implementation.
-		</description>
+		<description>The name of the default file system. See docker-entrypoint.sh</description>
 	</property>
 
 </configuration>

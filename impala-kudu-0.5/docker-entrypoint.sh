@@ -27,6 +27,8 @@ if [ "$1" = 'demo' ]; then
   service impala-state-store start
   service impala-catalog start
   service impala-server start
+  service kudu-master start
+  service kudu-tserver start
   # TMP: FIXME: find a way to monitor the process
   bash
 elif [ "$1" = 'help' ]; then

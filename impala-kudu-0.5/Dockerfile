@@ -48,7 +48,8 @@ RUN curl http://archive.cloudera.com/beta/kudu/redhat/6/x86_64/kudu/cloudera-kud
 ####################
 COPY ./etc /etc/bigdatafoundation/
 
-RUN ln -sf /etc/bigdatafoundation/core-site.xml /etc/hadoop/conf/  \
+RUN echo "Configuring Hadoop, Hive and Impala" \
+ && ln -sf /etc/bigdatafoundation/core-site.xml /etc/hadoop/conf/  \
  && ln -sf /etc/bigdatafoundation/hdfs-site.xml /etc/hadoop/conf/  \
  && ln -sf /etc/bigdatafoundation/hive-site.xml /etc/hive/conf/  \
  && ln -sf /etc/bigdatafoundation/hdfs-site.xml /etc/impala/conf/  \
@@ -57,11 +58,12 @@ RUN ln -sf /etc/bigdatafoundation/core-site.xml /etc/hadoop/conf/  \
  && mkdir -p /var/run/hdfs-sockets \
  && chown hdfs:hadoop /var/run/hdfs-sockets \
  && echo "Formatting HDFS ..." \
- && service hadoop-hdfs-namenode init
+ && service hadoop-hdfs-namenode init \
+ && echo "Configuring Kudu" \
+ && echo "--use_hybrid_clock=false" >> /etc/kudu/conf/master.gflagfile \
+ && echo "--use_hybrid_clock=false" >> /etc/kudu/conf/tserver.gflagfile
 
-#VOLUME /data/kudu-master /data/kudu-tserver
-
-VOLUME /var/lib/hadoop-hdfs /var/lib/hive /var/lib/impala
+VOLUME /var/lib/hadoop-hdfs /var/lib/hive /var/lib/impala /var/lib/kudu
 
 
 ####################

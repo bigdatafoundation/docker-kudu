@@ -12,7 +12,7 @@
 	-->
 	<property>
 		<name>fs.default.name</name>
-		<value>hdfs://___NAMENODE_HOST___:9000</value>
+		<value>hdfs://___NAMENODE_HOST___:8020</value>
 		<description>
 			The name of the default file system. A URI whose scheme and authority determine the FileSystem implementation.
 		</description>

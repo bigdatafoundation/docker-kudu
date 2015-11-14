@@ -87,31 +87,43 @@ RUN ln -sf /etc/bigdatafoundation/core-site.xml /etc/hadoop/conf/  \
 
 #VOLUME /data/kudu-master /data/kudu-tserver
 
-VOLUME /var/lib/hadoop-hdfs
+VOLUME /var/lib/hadoop-hdfs /var/lib/hive
 
 
 ####################
 # PORTS
 ####################
 #
+# http://www.cloudera.com/content/www/en-us/documentation/enterprise/latest/topics/cdh_ig_ports_cdh5.html
+# http://www.cloudera.com/content/www/en-us/documentation/enterprise/latest/topics/cm_ig_ports_impala.html
+#
 #  7050 Kudu: TabletServer RPC Port
 #  7051 Kudu: Master RPC Port
-#  8050 Kudu: TabletServer Web UI
-#  8051 Kudu: Master Web UI
-#  9000 HDFS: NameNode IPC
-# 21000 Impala: Shell
-# 21050 Impala: ODBC/JDBC
-# 25000 Impala: Daemon HTTP
-# 25010 Impala: State Store HTTP
-# 25020 Impala: Catalog HTTP
+#  8020 HDFS: NameNode IPC
+#  8050 Kudu: TabletServer HTTP (Web UI)
+#  8051 Kudu: Master HTTP (Web UI)
+#  9083 Hive: Metastore
+# 15000 Impala: Llama ApplicationMaster Thrift (internal)
+# 15001 Impala: Llama ApplicationMaster HTTP (Web UI)
+# 15002 Impala: Llama ApplicationMaster Admin Thrift (internal)
+# 21000 Impala: Daemon Shell (RPC)
+# 21050 Impala: Daemon ODBC/JDBC (RPC)
+# 22000 Impala: Daemon Backend (internal)
+# 23000 Impala: Daemon StateStoreSubscriber (internal)
+# 23020 Impala: Catalog StateStoreSubscriber (internal)
+# 24000 Impala: StateStore Thrift (internal)
+# 25000 Impala: Daemon HTTP (Web UI)
+# 25010 Impala: StateStore HTTP (Web UI)
+# 25020 Impala: Catalog HTTP (Web UI)
+# 26000 Impala: Catalog, push updates to daemons (internal)
+# 28000 Impala: Llama Callback (internal)
 # 50010 HDFS: DataNode Transfer
 # 50020 HDFS: DataNode IPC
-# 50070 HDFS: NameNode HTTP
-# 50075 HDFS: DataNode HTTP
+# 50070 HDFS: NameNode HTTP (Web UI)
+# 50075 HDFS: DataNode HTTP (Web UI)
 #
-EXPOSE 8050 8051 50070 50075
+EXPOSE 8050 8051 25010 50070 50075
 
-#CMD $WORKDIR/bin/start-daemon.sh
 
 COPY ./docker-entrypoint.sh /usr/local/bin/
 ENTRYPOINT ["docker-entrypoint.sh"]
